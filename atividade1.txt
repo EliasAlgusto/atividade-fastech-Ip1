@@ -1,0 +1,32 @@
+
+dados_pessoas=[]
+
+num_pessoas=int(input('Quantas pessoas você quer adicionar? '))
+
+for i in range(num_pessoas):
+    print(f'--- Dados da Pessoa {i+1} ---')
+    nome=input('Digite o nome: ')
+    peso=float(input('Digite o peso em kg (ex: 75.5): '))
+    altura=float(input('Digite a altura em metros (ex: 1.70): '))
+    idade=input('Digite a idade: ')
+    dados_pessoas.append([nome, peso, altura, idade])
+
+print('\n--- Resultados do IMC ---')
+
+for pessoa in dados_pessoas:
+    nome=pessoa[0]
+    peso=pessoa[1]
+    altura=pessoa[2]
+    idade=pessoa[0]
+    imc=peso / (altura ** 2)
+
+    imc_arredondado = round(imc, 2)
+    print(f'\nIMC de {nome}: {imc_arredondado}')
+    if imc < 18.5:
+        print('Classificação: Abaixo do peso')
+    elif imc < 24.9:
+        print('Classificação: Peso normal')
+    elif imc < 29.9:
+        print('Classificação: Sobrepeso')
+    else:
+        print('Classificação: Obesidade')
