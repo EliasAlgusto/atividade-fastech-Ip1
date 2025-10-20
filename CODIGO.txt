@@ -1,0 +1,74 @@
+CODIGO
+
+def continuar():
+    while True:
+        try:
+            resposta = input("Deseja continuar? (S/N): ").capitalize()[0]
+            if resposta == "N":
+                return False
+            elif resposta == "S":
+                return True
+            else:
+                print("Resposta inválida!")
+        except IndexError:
+            print("Resposta inválida!")
+
+
+while True:
+    with open('notas.txt', 'a') as notas:
+        nome = input('Informe o nome: ')
+        n1 = input('Informe a nota 1: ')
+        n2 = input('Informe a nota 2: ')
+        n3 = input('Informe a nota 3: ')
+        notas.write(f"{nome}, {n1}, {n2}, {n3}\n")
+
+    if not continuar():
+        break
+
+
+with open('notas.txt', 'r') as arquivo:
+    texto = arquivo.readlines()
+
+for linha in texto:
+    if linha.strip() != "":
+        lista = linha.strip().split(',')
+        nome = lista[0]
+        n1 = float(lista[1])
+        n2 = float(lista[2])
+        n3 = float(lista[3])
+
+        media = (n1 + n2 + n3) / 3
+
+        if media >= 7:
+            with open('aprovados.txt', 'a') as aprovados:
+                aprovados.write(f"{nome}, {media:.2f}\n")
+
+        elif media >= 5:
+            with open('exame.txt', 'a') as exame:
+                exame.write(f"{nome}, {media:.2f}\n")
+
+        else:
+            with open('reprovados.txt', 'a') as reprovados:
+                reprovados.write(f"{nome}, {media:.2f}\n")
+
+with open('exame.txt', 'r') as arquivo:
+    linhas = arquivo.readlines()
+
+for linha in linhas:
+    if linha.strip() != "":
+        dados = linha.strip().split(',')
+        nome = dados[0]
+        media_anterior = float(dados[1])
+
+        nota_exame = float(input(f"Informe a nota do exame de {nome}: "))
+
+        nova_media = (media_anterior + nota_exame) / 2
+
+        if nova_media >= 5:
+            with open('aprovados.txt', 'a') as aprovados:
+                aprovados.write(f"{nome}, {nova_media:.2f} - Aprovado após exame\n")
+        else:
+            with open('reprovados.txt', 'a') as reprovados:
+                reprovados.write(f"{nome}, {nova_media:.2f} - Reprovado após exame\n")
+
+print("\nProcesso concluído! Resultados atualizados nos arquivos.")
